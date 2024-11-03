@@ -569,3 +569,140 @@ if __name__ == "__main__":
 
 
 
+class Discount:
+    """
+    Represents a Discount with only two types: loyalty and bulk.
+    Loyalty members receive a 10% discount on all purchases.
+    Bulk purchases of 5 or more items receive a 20% discount.
+    """
+    
+    def __init__(self, discount_id, description, loyalty_discount=0.10, bulk_discount=0.20):
+        """
+        Initializes a Discount instance with specified loyalty and bulk discount percentages.
+        
+        Parameters:
+        discount_id (int): The unique identifier for the discount.
+        description (str): Description of the discount.
+        loyalty_discount (float): Discount percentage for loyalty members (default is 10%).
+        bulk_discount (float): Discount percentage for bulk purchases of 5 or more items (default is 20%).
+        """
+        self._discount_id = discount_id
+        self._description = description
+        self._loyalty_discount = loyalty_discount
+        self._bulk_discount = bulk_discount
+        self._cart = None  # Unary Association with ShoppingCart (applied to a cart if associated)
+
+    # Getters
+    def get_discount_id(self):
+        """Returns the discount ID."""
+        return self._discount_id
+
+    def get_description(self):
+        """Returns the description of the discount."""
+        return self._description
+
+    def get_loyalty_discount(self):
+        """Returns the loyalty discount percentage."""
+        return self._loyalty_discount
+
+    def get_bulk_discount(self):
+        """Returns the bulk discount percentage."""
+        return self._bulk_discount
+
+    # Setters
+    def set_discount_id(self, discount_id):
+        """Sets a new discount ID."""
+        self._discount_id = discount_id
+
+    def set_description(self, description):
+        """Sets a new description for the discount."""
+        self._description = description
+
+    def set_loyalty_discount(self, loyalty_discount):
+        """Sets a new loyalty discount percentage."""
+        self._loyalty_discount = loyalty_discount
+
+    def set_bulk_discount(self, bulk_discount):
+        """Sets a new bulk discount percentage."""
+        self._bulk_discount = bulk_discount
+
+    # Association Method
+    def apply_to_cart(self, cart):
+        """
+        Associates this discount with a ShoppingCart instance.
+        
+        Parameters:
+        cart (ShoppingCart): The shopping cart to which this discount is applied.
+        """
+        self._cart = cart
+
+    def remove_from_cart(self):
+        """Removes the association of this discount with any cart."""
+        self._cart = None
+
+    # Calculation Method
+    def apply_discount(self, total_price, is_loyalty_member=False, item_count=1):
+        """
+        Calculates the discount amount based on loyalty status and bulk purchase conditions.
+        
+        Parameters:
+        total_price (float): The total price before applying any discounts.
+        is_loyalty_member (bool): Whether the customer is a loyalty member.
+        item_count (int): The number of items in the purchase. If 5 or more, bulk discount applies.
+        
+        Returns:
+        float: The total discounted amount.
+        """
+        discount = 0.0
+        if is_loyalty_member:
+            discount += total_price * self._loyalty_discount
+        if item_count >= 5:  # Apply bulk discount if item count is 5 or more
+            discount += total_price * self._bulk_discount
+        return total_price - discount  # Return price after discount
+
+    # String representation for easy printing of discount details
+    def __str__(self):
+        """Returns the string representation of the discount's details."""
+        return f"Discount ID: {self._discount_id}, Description: {self._description}, " \
+               f"Loyalty Discount: {self._loyalty_discount * 100}%, " \
+               f"Bulk Discount: {self._bulk_discount * 100}%"
+
+# Example usage
+if __name__ == "__main__":
+    # Creating an instance of Discount with loyalty and bulk discounts
+    discount = Discount(101, "Loyalty and Bulk Discount")
+    
+    # Initial display of discount details using __str__ method
+    print("Initial Discount Details:")
+    print(discount)
+    pass  # Placeholder for any additional initialization logic if needed
+
+    # Example with only the loyalty discount
+    total_price = 100.0  # Example total price
+    print("\nApplying Loyalty Discount Only:")
+    loyalty_discounted_price = discount.apply_discount(total_price, is_loyalty_member=True)
+    print(f"Original Price: ${total_price}")
+    print(f"Price after Loyalty Discount: ${loyalty_discounted_price:.2f}")
+
+    # Now updating to add bulk discount using setters
+    discount.set_bulk_discount(0.20)  # Set bulk discount to 20%
+
+    # Applying both loyalty and bulk discounts
+    print("\nApplying Both Loyalty and Bulk Discount:")
+    final_discounted_price = discount.apply_discount(total_price, is_loyalty_member=True, item_count=5)
+    print(f"Original Price: ${total_price}")
+    print(f"Price after Loyalty and Bulk Discounts: ${final_discounted_price:.2f}")
+
+    # Displaying each attribute separately using getters
+    print("\nDisplaying Discount Details Using Getters:")
+    print("Discount ID:", discount.get_discount_id())
+    print("Description:", discount.get_description())
+    print("Loyalty Discount:", discount.get_loyalty_discount())
+    print("Bulk Discount:", discount.get_bulk_discount())
+    pass  # Placeholder for any additional operations if required
+
+
+
+
+
+
