@@ -387,3 +387,185 @@ if __name__ == "__main__":
     print("Customer Info:", cart._customer)
 
 
+
+
+from datetime import date
+
+class Customer:
+    """
+    Represents a customer with details such as name, email, contact number, loyalty member status, and address.
+    """
+    
+    def __init__(self, name, email, contact_number, loyalty_member, address):
+        """
+        Initializes a customer with specified name, email, contact number, loyalty status, and address.
+        
+        Parameters:
+        name (str): Customer's name.
+        email (str): Customer's email.
+        contact_number (str): Customer's contact number.
+        loyalty_member (bool): Whether the customer is a loyalty program member.
+        address (str): Customer's address.
+        """
+        self._name = name
+        self._email = email
+        self._contact_number = contact_number
+        self._loyalty_member = loyalty_member
+        self._address = address
+
+    # Getters
+    def get_name(self):
+        return self._name
+
+    def get_email(self):
+        return self._email
+
+    def get_contact_number(self):
+        return self._contact_number
+
+    def is_loyalty_member(self):
+        return self._loyalty_member
+
+    def get_address(self):
+        return self._address
+
+    # Setters
+    def set_name(self, name):
+        self._name = name
+
+    def set_email(self, email):
+        self._email = email
+
+    def set_contact_number(self, contact_number):
+        self._contact_number = contact_number
+
+    def set_loyalty_member(self, loyalty_member):
+        self._loyalty_member = loyalty_member
+
+    def set_address(self, address):
+        self._address = address
+
+    def __str__(self):
+        return f"Customer: {self._name}, Email: {self._email}, Loyalty Member: {self._loyalty_member}"
+
+class EBook:
+    """
+    Represents an eBook with details like title, author, publication date, genre, and price.
+    """
+
+    def __init__(self, title, author, publication_date, genre, price):
+        self._title = title
+        self._author = author
+        self._publication_date = publication_date
+        self._genre = genre
+        self._price = price
+
+    def get_price(self):
+        return self._price
+
+    def __str__(self):
+        return f"Title: {self._title}, Author: {self._author}, Price: ${self._price:.2f}"
+
+class ShoppingCart:
+    """
+    Represents a shopping cart containing eBooks, associated with a specific customer.
+    """
+
+    def __init__(self, customer):
+        """
+        Initializes the shopping cart for a customer.
+        
+        Parameters:
+        customer (Customer): The customer who owns this shopping cart.
+        """
+        self._customer = customer
+        self._eBooks = []
+        self._total_price = 0.0
+        self._item_count = 0
+
+    # Add eBook to the cart
+    def add_ebook(self, ebook):
+        """
+        Adds an eBook to the shopping cart and updates the total price and item count.
+
+        Parameters:
+        ebook (EBook): The eBook to be added to the cart.
+        """
+        self._eBooks.append(ebook)
+        self._total_price += ebook.get_price()
+        self._item_count += 1
+
+    # Remove eBook from the cart
+    def remove_ebook(self, ebook):
+        """
+        Removes an eBook from the shopping cart if it exists, updating the total price and item count.
+
+        Parameters:
+        ebook (EBook): The eBook to be removed from the cart.
+        """
+        if ebook in self._eBooks:
+            self._eBooks.remove(ebook)
+            self._total_price -= ebook.get_price()
+            self._item_count -= 1
+
+    # Get total price of the cart
+    def get_total_price(self):
+        return self._total_price
+
+    # Set total price using a setter
+    def set_total_price(self, total_price):
+        self._total_price = total_price
+
+    # Display cart details
+    def get_cart_details(self):
+        """
+        Returns a summary of the shopping cart contents.
+        """
+        cart_contents = ", ".join([str(ebook) for ebook in self._eBooks])
+        return f"Cart contains: {cart_contents}\nTotal Price: ${self._total_price:.2f}, Items Count: {self._item_count}"
+
+    # Updating the cart using setters
+    def update_cart(self, ebook):
+        """Updates the cart by adding a new eBook and recalculating the total price and item count."""
+        self.add_ebook(ebook)
+        pass  # Placeholder for additional logic if needed
+
+    # String representation for easy printing
+    def __str__(self):
+        return f"{self._customer}\n{self.get_cart_details()}"
+
+# Example Usage
+if __name__ == "__main__":
+    # Create a customer instance
+    customer = Customer("Rawdha", "rawdha256@gmail.com", "0554788002", True, "24 Al Abal St")
+
+    # Create a shopping cart for the customer (composition relationship)
+    cart = ShoppingCart(customer)
+
+    # Create some eBook instances
+    ebook1 = EBook("Book One", "Author A", date(2021, 5, 21), "Fiction", 9.99)
+    ebook2 = EBook("Book Two", "Author B", date(2020, 3, 14), "Non-Fiction", 12.99)
+
+    # Add eBooks to the cart
+    cart.add_ebook(ebook1)
+    cart.add_ebook(ebook2)
+
+    # Display cart details
+    print("Initial Cart Details:")
+    print(cart)
+
+    pass  # Placeholder for additional initialization if needed
+
+    # Update the cart by removing an eBook and displaying updated details
+    cart.remove_ebook(ebook1)
+    print("\nUpdated Cart Details After Removing an eBook:")
+    print(cart)
+
+    # Displaying each attribute using getters
+    print("\nDisplaying Cart Details Using Getters:")
+    print("Total Price:", cart.get_total_price())
+    print("Customer Info:", cart._customer)
+    pass  # Placeholder for further operations if required
+
+
+
