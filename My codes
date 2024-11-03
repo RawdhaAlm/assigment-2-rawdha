@@ -1,0 +1,117 @@
+from datetime import date
+
+class EBook:
+    """
+    Represents an EBook with details such as title, author, publication date, genre, and price.
+    The class provides methods to retrieve and update book information, including adjusting the price
+    based on store policies or promotional strategies.
+    """
+    
+    def __init__(self, title, author, publication_date, genre, price):
+        """
+        Initializes the EBook with the specified title, author, publication date, genre, and price.
+        
+        Parameters:
+        title (str): The title of the ebook.
+        author (str): The author of the ebook.
+        publication_date (date): The publication date of the ebook.
+        genre (str): The genre of the ebook.
+        price (float): The price of the ebook.
+        """
+        self._title = title
+        self._author = author
+        self._publication_date = publication_date
+        self._genre = genre
+        self._price = price
+
+    # Getters
+    def get_title(self):
+        """Returns the title of the ebook."""
+        return self._title
+
+    def get_author(self):
+        """Returns the author of the ebook."""
+        return self._author
+
+    def get_publication_date(self):
+        """Returns the publication date of the ebook."""
+        return self._publication_date
+
+    def get_genre(self):
+        """Returns the genre of the ebook."""
+        return self._genre
+
+    def get_price(self):
+        """Returns the price of the ebook."""
+        return self._price
+
+    # Setters
+    def set_title(self, title):
+        """Sets a new title for the ebook."""
+        self._title = title
+
+    def set_author(self, author):
+        """Sets a new author for the ebook."""
+        self._author = author
+
+    def set_publication_date(self, publication_date):
+        """Sets a new publication date for the ebook."""
+        self._publication_date = publication_date
+
+    def set_genre(self, genre):
+        """Sets a new genre for the ebook."""
+        self._genre = genre
+
+    def set_price(self, price):
+        """Sets a new price for the ebook."""
+        self._price = price
+
+    # Method to get details of the book
+    def get_details(self):
+        """Returns a formatted string containing details of the ebook."""
+        return f"Title: {self._title}, Author: {self._author}, " \
+               f"Publication Date: {self._publication_date}, Genre: {self._genre}, Price: ${self._price:.2f}"
+
+    # Method to update the price of the book
+    def update_price(self, new_price):
+        """
+        Updates the price of the ebook.
+
+        Parameters:
+        new_price (float): The new price to set for the ebook.
+        """
+        self._price = new_price
+
+    # String representation for easy printing of ebook details
+    def __str__(self):
+        """Returns the string representation of the ebook's details."""
+        return self.get_details()
+
+# Example usage
+if __name__ == "__main__":
+    # Creating an instance of EBook with specified title, author, publication date, genre, and price
+    ebook = EBook("The Woman in White", "Wilkie Collins", date(1859, 11, 26), "Mystery", 15.99)
+    
+    # Initial display of ebook details using the get_details method
+    print("Initial EBook Details:")
+    print(ebook.get_details())
+    pass  # Placeholder for additional initialization logic if needed
+
+    # Using setters to modify the ebook's title and price
+    ebook.set_title("The Woman in White (Annotated Edition)")
+    ebook.update_price(12.99)
+
+    # Display updated ebook details after modifications
+    print("\nUpdated EBook Details After Using Setters:")
+    print(ebook)
+
+    # Displaying each attribute separately using getters
+    print("\nDisplaying EBook Details Using Getters:")
+    print("Title:", ebook.get_title())
+    print("Author:", ebook.get_author())
+    print("Publication Date:", ebook.get_publication_date())
+    print("Genre:", ebook.get_genre())
+    print("Price:", ebook.get_price())
+    pass  # Placeholder for further operations if required
+
+
