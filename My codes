@@ -3,20 +3,12 @@ from datetime import date
 class EBook:
     """
     Represents an EBook with details such as title, author, publication date, genre, and price.
-    The class provides methods to retrieve and update book information, including adjusting the price
-    based on store policies or promotional strategies.
+    Provides methods to retrieve and update book information.
     """
     
     def __init__(self, title, author, publication_date, genre, price):
         """
-        Initializes the EBook with the specified title, author, publication date, genre, and price.
-        
-        Parameters:
-        title (str): The title of the ebook.
-        author (str): The author of the ebook.
-        publication_date (date): The publication date of the ebook.
-        genre (str): The genre of the ebook.
-        price (float): The price of the ebook.
+        Initializes the EBook with title, author, publication date, genre, and price.
         """
         self._title = title
         self._author = author
@@ -76,32 +68,62 @@ class EBook:
     def update_price(self, new_price):
         """
         Updates the price of the ebook.
-
-        Parameters:
-        new_price (float): The new price to set for the ebook.
         """
         self._price = new_price
 
-    # String representation for easy printing of ebook details
+    # String representation
     def __str__(self):
         """Returns the string representation of the ebook's details."""
         return self.get_details()
 
+
+class ShoppingCart:
+    """
+    Represents a shopping cart that can contain multiple EBook instances.
+    Demonstrates an aggregation relationship with the EBook class.
+    """
+    
+    def __init__(self):
+        self._ebooks = []
+
+    def add_ebook(self, ebook):
+        """Adds an EBook to the shopping cart."""
+        self._ebooks.append(ebook)
+
+    def remove_ebook(self, ebook):
+        """Removes an EBook from the shopping cart."""
+        if ebook in self._ebooks:
+            self._ebooks.remove(ebook)
+
+    def get_total_price(self):
+        """Calculates the total price of all e-books in the cart."""
+        return sum(ebook.get_price() for ebook in self._ebooks)
+
+    def list_ebooks(self):
+        """Returns details of all e-books in the shopping cart."""
+        return [str(ebook) for ebook in self._ebooks]
+
+    def __str__(self):
+        """Returns a formatted list of ebooks in the cart with total price."""
+        return f"EBooks in Cart:\n" + "\n".join(self.list_ebooks()) + f"\nTotal Price: ${self.get_total_price():.2f}"
+
+
 # Example usage
 if __name__ == "__main__":
-    # Creating an instance of EBook with specified title, author, publication date, genre, and price
+    # Creating an instance of EBook
     ebook = EBook("The Woman in White", "Wilkie Collins", date(1859, 11, 26), "Mystery", 15.99)
     
-    # Initial display of ebook details using the get_details method
+    # Display initial details using __str__ method
     print("Initial EBook Details:")
-    print(ebook.get_details())
-    pass  # Placeholder for additional initialization logic if needed
+    print(ebook)
+
+    pass  # Placeholder for any additional setup if required
 
     # Using setters to modify the ebook's title and price
     ebook.set_title("The Woman in White (Annotated Edition)")
     ebook.update_price(12.99)
 
-    # Display updated ebook details after modifications
+    # Display updated details after modifications
     print("\nUpdated EBook Details After Using Setters:")
     print(ebook)
 
@@ -112,6 +134,14 @@ if __name__ == "__main__":
     print("Publication Date:", ebook.get_publication_date())
     print("Genre:", ebook.get_genre())
     print("Price:", ebook.get_price())
-    pass  # Placeholder for further operations if required
+    
+    pass  # Another placeholder if further operations are needed
 
+    # Creating a ShoppingCart and adding ebooks to it
+    cart = ShoppingCart()
+    cart.add_ebook(ebook)
+    cart.add_ebook(EBook("Dracula", "Bram Stoker", date(1897, 5, 26), "Horror", 10.99))
 
+    # Displaying cart details
+    print("\nShopping Cart Details:")
+    print(cart)
